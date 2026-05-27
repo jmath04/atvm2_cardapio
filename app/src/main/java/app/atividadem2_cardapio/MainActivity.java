@@ -1,52 +1,37 @@
 package app.atividadem2_cardapio;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import app.atividadem2_cardapio.databinding.ActivityMainBinding;
-
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    Button btnComidas, btnBebidas, btnSobremesas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        btnComidas = findViewById(R.id.btnComidas);
+        btnBebidas = findViewById(R.id.btnBebidas);
+        btnSobremesas = findViewById(R.id.btnSobremesas);
 
-        setSupportActionBar(binding.toolbar);
+        btnComidas.setOnClickListener(v -> abrirCategoria("comidas"));
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        btnBebidas.setOnClickListener(v -> abrirCategoria("bebidas"));
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
+        btnSobremesas.setOnClickListener(v -> abrirCategoria("sobremesas"));
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    private void abrirCategoria(String categoria){
+
+        Intent intent = new Intent(this, CategoriaActivity.class);
+
+        intent.putExtra("categoria", categoria);
+
+        startActivity(intent);
     }
 }
