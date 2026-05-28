@@ -52,13 +52,15 @@ public class ItensActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("https://api.jsonbin.io/v3/b/6a189dc5ddf5aa59f7716336/latest");
+                URL url = new URL(
+                        "https://api.jsonbin.io/v3/b/6a189dc5ddf5aa59f7716336/latest"
+                );
 
                 HttpURLConnection conexao =
                         (HttpURLConnection) url.openConnection();
 
                 conexao.setRequestProperty(
-                        "6a189dc5ddf5aa59f7716336",
+                        "X-Master-Key",
                         "$2a$10$19A1SJa/0MXILSmL8fDVx.DsPzgPYYGUSgqIJSW82mX2XjvKIT9FS"
                 );
 
@@ -143,6 +145,8 @@ public class ItensActivity extends AppCompatActivity {
                 });
 
             } catch (Exception e){
+
+                e.printStackTrace();
 
                 DatabaseHelper db =
                         new DatabaseHelper(this);
