@@ -52,10 +52,15 @@ public class ItensActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("COLE_SUA_URL_JSON_AQUI");
+                URL url = new URL("https://api.jsonbin.io/v3/b/6a189dc5ddf5aa59f7716336/latest");
 
                 HttpURLConnection conexao =
                         (HttpURLConnection) url.openConnection();
+
+                conexao.setRequestProperty(
+                        "6a189dc5ddf5aa59f7716336",
+                        "$2a$10$19A1SJa/0MXILSmL8fDVx.DsPzgPYYGUSgqIJSW82mX2XjvKIT9FS"
+                );
 
                 conexao.setRequestMethod("GET");
 
@@ -75,8 +80,11 @@ public class ItensActivity extends AppCompatActivity {
                     json.append(linha);
                 }
 
+                JSONObject jsonObject =
+                        new JSONObject(json.toString());
+
                 JSONArray array =
-                        new JSONArray(json.toString());
+                        jsonObject.getJSONArray("record");
 
                 lista.clear();
 
