@@ -10,12 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItensActivity extends AppCompatActivity {
 
     TextView txtCategoria;
+
     RecyclerView recyclerView;
 
     List<MenuItem> lista = new ArrayList<>();
@@ -26,87 +31,137 @@ public class ItensActivity extends AppCompatActivity {
         setContentView(R.layout.activity_itens);
 
         txtCategoria = findViewById(R.id.txtCategoria);
+
         recyclerView = findViewById(R.id.recyclerView);
 
-        String categoria = getIntent().getStringExtra("categoria");
+        String categoria =
+                getIntent().getStringExtra("categoria");
 
         txtCategoria.setText(categoria);
 
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+
         carregarJson(categoria);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        recyclerView.setAdapter(new MenuAdapter(lista));
     }
 
     private void carregarJson(String categoriaSelecionada){
 
-        try {
+        new Thread(() -> {
 
-            String json = "[" +
+            try {
 
-                    "{\"nome\":\"Água\",\"preco\":\"R$ 4,00\",\"categoria\":\"bebidas\",\"imagem\":\"agua\"}," +
+                URL url = new URL("COLE_SUA_URL_JSON_AQUI");
 
-                    "{\"nome\":\"Refrigerante\",\"preco\":\"R$ 8,00\",\"categoria\":\"bebidas\",\"imagem\":\"refri\"}," +
+                HttpURLConnection conexao =
+                        (HttpURLConnection) url.openConnection();
 
-                    "{\"nome\":\"Suco Natural\",\"preco\":\"R$ 12,00\",\"categoria\":\"bebidas\",\"imagem\":\"suco\"}," +
+                conexao.setRequestMethod("GET");
 
-                    "{\"nome\":\"Chá Gelado\",\"preco\":\"R$ 9,00\",\"categoria\":\"bebidas\",\"imagem\":\"cha\"}," +
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        conexao.getInputStream()
+                                )
+                        );
 
-                    "{\"nome\":\"Milkshake\",\"preco\":\"R$ 18,00\",\"categoria\":\"bebidas\",\"imagem\":\"milkshake\"}," +
+                StringBuilder json = new StringBuilder();
 
-                    "{\"nome\":\"Cerveja\",\"preco\":\"R$ 14,00\",\"categoria\":\"bebidas\",\"imagem\":\"cerveja\"}," +
+                String linha;
 
-                    "{\"nome\":\"Petit Gateau\",\"preco\":\"R$ 22,00\",\"categoria\":\"sobremesas\",\"imagem\":\"petitgateau\"}," +
+                while((linha = reader.readLine()) != null){
 
-                    "{\"nome\":\"Brownie\",\"preco\":\"R$ 15,00\",\"categoria\":\"sobremesas\",\"imagem\":\"brownie\"}," +
+                    json.append(linha);
+                }
 
-                    "{\"nome\":\"Salada de Frutas\",\"preco\":\"R$ 14,00\",\"categoria\":\"sobremesas\",\"imagem\":\"saladafrutas\"}," +
+                JSONArray array =
+                        new JSONArray(json.toString());
 
-                    "{\"nome\":\"Batata Frita\",\"preco\":\"R$ 18,00\",\"categoria\":\"comidas\",\"imagem\":\"batata\"}," +
+                lista.clear();
 
-                    "{\"nome\":\"Polenta Frita\",\"preco\":\"R$ 20,00\",\"categoria\":\"comidas\",\"imagem\":\"polenta\"}," +
+                DatabaseHelper db =
+                        new DatabaseHelper(this);
 
-                    "{\"nome\":\"X-Salada\",\"preco\":\"R$ 28,00\",\"categoria\":\"comidas\",\"imagem\":\"xsalada\"}," +
+                db.limparTabela();
 
-                    "{\"nome\":\"X-Galinha\",\"preco\":\"R$ 30,00\",\"categoria\":\"comidas\",\"imagem\":\"xgalinha\"}," +
+                for(int i = 0; i < array.length(); i++){
 
-                    "{\"nome\":\"X-Burguer\",\"preco\":\"R$ 32,00\",\"categoria\":\"comidas\",\"imagem\":\"xburguer\"}," +
+                    JSONObject objeto =
+                            array.getJSONObject(i);
 
-                    "{\"nome\":\"X-Bacon\",\"preco\":\"R$ 35,00\",\"categoria\":\"comidas\",\"imagem\":\"xbacon\"}" +
+                    String nome =
+                            objeto.getString("nome");
 
-                    "]";
+                    String preco =
+                            objeto.getString("preco");
 
-            JSONArray array = new JSONArray(json);
+                    String categoria =
+                            objeto.getString("categoria");
 
-            for(int i = 0; i < array.length(); i++){
+                    String nomeImagem =
+                            objeto.getString("imagem");
 
-                JSONObject objeto = array.getJSONObject(i);
-
-                String nome = objeto.getString("nome");
-                String preco = objeto.getString("preco");
-                String categoria = objeto.getString("categoria");
-                String nomeImagem = objeto.getString("imagem");
-
-                if(categoria.equals(categoriaSelecionada)){
-
-                    int imagem = getResources().getIdentifier(
-                            nomeImagem,
-                            "drawable",
-                            getPackageName()
-                    );
-
-                    lista.add(new MenuItem(
+                    db.inserirItem(
                             nome,
                             preco,
                             categoria,
-                            imagem
+                            nomeImagem
+                    );
+
+                    if(categoria.equals(categoriaSelecionada)){
+
+                        int imagem =
+                                getResources().getIdentifier(
+                                        nomeImagem,
+                                        "drawable",
+                                        getPackageName()
+                                );
+
+                        lista.add(new MenuItem(
+                                nome,
+                                preco,
+                                categoria,
+                                imagem
+                        ));
+                    }
+                }
+
+                runOnUiThread(() -> {
+
+                    recyclerView.setAdapter(
+                            new MenuAdapter(lista)
+                    );
+                });
+
+            } catch (Exception e){
+
+                DatabaseHelper db =
+                        new DatabaseHelper(this);
+
+                lista.clear();
+
+                List<MenuItem> itensOffline =
+                        db.listarItens(categoriaSelecionada);
+
+                for(MenuItem item : itensOffline){
+
+                    lista.add(new MenuItem(
+                            item.getNome(),
+                            "A consultar",
+                            item.getCategoria(),
+                            item.getImagem()
                     ));
                 }
+
+                runOnUiThread(() -> {
+
+                    recyclerView.setAdapter(
+                            new MenuAdapter(lista)
+                    );
+                });
             }
 
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        }).start();
     }
 }
