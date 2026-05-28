@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imgPrato"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
@@ -34,14 +34,16 @@
                 android:id="@+id/txtNome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Nome"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="#1A1A1A"/>
+                android:textColor="#111"/>
 
             <TextView
                 android:id="@+id/txtPreco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="R$ 00,00"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#0F4C81"

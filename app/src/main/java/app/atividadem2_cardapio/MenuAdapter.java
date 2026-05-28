@@ -19,20 +19,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         this.lista = lista;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView txtNome, txtPreco;
-        ImageView imgPrato;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            txtNome = itemView.findViewById(R.id.txtNome);
-            txtPreco = itemView.findViewById(R.id.txtPreco);
-            imgPrato = itemView.findViewById(R.id.imgPrato);
-        }
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,12 +35,31 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         MenuItem item = lista.get(position);
 
         holder.txtNome.setText(item.getNome());
+
         holder.txtPreco.setText(item.getPreco());
+
         holder.imgPrato.setImageResource(item.getImagem());
     }
 
     @Override
     public int getItemCount() {
         return lista.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView txtNome;
+        TextView txtPreco;
+        ImageView imgPrato;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            txtNome = itemView.findViewById(R.id.txtNome);
+
+            txtPreco = itemView.findViewById(R.id.txtPreco);
+
+            imgPrato = itemView.findViewById(R.id.imgPrato);
+        }
     }
 }

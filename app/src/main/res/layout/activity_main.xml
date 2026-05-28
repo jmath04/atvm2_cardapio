@@ -1,158 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#F3F6FA">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
+        android:background="#0F4C81"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:background="#0F4C81"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:text="JS"
-                android:textColor="#0F4C81"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cardápio"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:paddingStart="18dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardComidas"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
-                card_view:cardCornerRadius="18dp"
-                card_view:cardElevation="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Comidas"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="#111"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lanches e porções"
-                        android:textSize="15sp"
-                        android:textColor="#666"
-                        android:paddingTop="6dp"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardBebidas"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
-                card_view:cardCornerRadius="18dp"
-                card_view:cardElevation="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bebidas"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="#111"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sucos, refrigerantes e drinks"
-                        android:textSize="15sp"
-                        android:textColor="#666"
-                        android:paddingTop="6dp"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardSobremesas"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                card_view:cardCornerRadius="18dp"
-                card_view:cardElevation="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sobremesas"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="#111"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Doces e sobremesas"
-                        android:textSize="15sp"
-                        android:textColor="#666"
-                        android:paddingTop="6dp"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
+            android:text="JS Lanchonete"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
-</ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bem Vindo"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#111"/>
+
+        <Button
+            android:id="@+id/btnCardapio"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="Cardápio"
+            android:textSize="20sp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#0F4C81"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desenvolvido M2"
+            android:textSize="16sp"
+            android:textColor="#777"
+            android:layout_marginTop="120dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
